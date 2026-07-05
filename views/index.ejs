@@ -1,0 +1,128 @@
+<%- include('partials/header') %>
+
+<!-- Storefront Container -->
+<div class="container">
+  
+  <!-- Client View Switcher (Browse vs. Track Orders) -->
+  <div style="display: flex; gap: 16px; margin-bottom: 30px;">
+    <button id="view-catalog-btn" class="btn btn-primary" onclick="switchStoreView('catalog')">
+      <i class="fa-solid fa-store"></i> Browse Catalog
+    </button>
+    <button id="view-orders-btn" class="btn btn-secondary" onclick="switchStoreView('orders')" style="display: none;">
+      <i class="fa-solid fa-truck-ramp-box"></i> Track My Orders
+    </button>
+  </div>
+
+  <!-- VIEW 1: Catalog & Products -->
+  <div id="store-catalog-view">
+    <!-- Search and filter Header -->
+    <div class="store-header">
+      <div>
+        <h1 style="font-size: 2.25rem; font-weight: 700; margin-bottom: 8px;">Explore Products</h1>
+        <p style="color: var(--text-secondary);">Premium products from independent verified vendors.</p>
+      </div>
+
+      <div class="search-filter-bar">
+        <!-- Search bar -->
+        <div style="position: relative; flex-grow: 1;">
+          <input type="text" id="search-input" class="form-control" placeholder="Search products..." style="padding-left: 45px;" oninput="debounceSearch()">
+          <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 18px; top: 16px; color: var(--text-muted);"></i>
+        </div>
+        <!-- Price range filters -->
+        <input type="number" id="min-price" class="form-control" placeholder="Min $" style="width: 100px;" onchange="loadCatalog()">
+        <input type="number" id="max-price" class="form-control" placeholder="Max $" style="width: 100px;" onchange="loadCatalog()">
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="catalog-list" class="catalog-grid">
+      <!-- Dynamically filled with JS -->
+      <div style="text-align: center; grid-column: 1/-1; padding: 60px 0; color: var(--text-secondary);">
+        <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; margin-bottom: 16px; color: var(--primary);"></i>
+        <p>Loading catalog items...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 2: Customer Order List & Tracking -->
+  <div id="store-orders-view" style="display: none;">
+    <div class="store-header">
+      <div>
+        <h1 style="font-size: 2.25rem; font-weight: 700; margin-bottom: 8px;">My Purchase History</h1>
+        <p style="color: var(--text-secondary);">Track shipments and review vendor status updates.</p>
+      </div>
+    </div>
+
+    <div id="orders-list" class="glass-panel" style="padding: 30px; border-radius: var(--radius-md);">
+      <!-- Dynamically loaded with JS -->
+    </div>
+  </div>
+
+</div>
+
+<!-- Shopping Cart Side Drawer -->
+<div id="cart-drawer" class="cart-drawer">
+  <div class="cart-header">
+    <h3 style="font-weight: 600; font-size: 1.25rem;"><i class="fa-solid fa-bag-shopping"></i> Shopping Cart</h3>
+    <span class="close-btn" onclick="toggleCartDrawer()">&times;</span>
+  </div>
+  
+  <div id="cart-items" class="cart-items-list">
+    <!-- Dynamically loaded with JS -->
+    <div style="text-align: center; margin-top: 40px; color: var(--text-muted);">
+      <i class="fa-solid fa-basket-shopping" style="font-size: 3rem; margin-bottom: 16px;"></i>
+      <p>Your cart is empty.</p>
+    </div>
+  </div>
+
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <span>Total:</span>
+      <span id="cart-total-value">$0.00</span>
+    </div>
+    <button class="btn btn-primary" style="width: 100%;" onclick="openCheckoutModal()">
+      Proceed to Checkout <i class="fa-solid fa-credit-card"></i>
+    </button>
+  </div>
+</div>
+
+<!-- Checkout Modal Overlay -->
+<div id="checkout-modal" class="modal-overlay">
+  <div class="glass-panel modal-card">
+    <span class="close-btn" onclick="closeCheckoutModal()">&times;</span>
+    <h2 style="font-weight: 700; margin-bottom: 10px;">Complete Your Order</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 24px;">Please provide shipping address and contact credentials.</p>
+
+    <!-- Error message banner -->
+    <div id="checkout-alert" style="display: none; padding: 12px; margin-bottom: 20px; border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 500;"></div>
+
+    <form id="checkout-form">
+      <div class="form-group">
+        <label for="shippingAddress" class="form-label">Delivery Address</label>
+        <textarea id="shippingAddress" class="form-control" rows="3" placeholder="Street Address, City, Zip Code" required style="resize: none;"></textarea>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 30px;">
+        <label for="contactNumber" class="form-label">Contact Phone Number</label>
+        <input type="tel" id="contactNumber" class="form-control" placeholder="+1 (555) 000-0000" required>
+      </div>
+
+      <div style="border-top: 1px solid var(--glass-border); padding-top: 20px; margin-bottom: 30px;">
+        <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem; color: #fff;">
+          <span>Grand Total:</span>
+          <span id="checkout-total-price">$0.00</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 16px;">
+        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeCheckoutModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary" style="flex: 2;">Place Order <i class="fa-solid fa-circle-check"></i></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Client storefront script dependencies -->
+<script src="/js/store.js"></script>
+
+<%- include('partials/footer') %>

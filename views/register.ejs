@@ -1,0 +1,62 @@
+<%- include('partials/header') %>
+
+<div class="auth-wrapper">
+  <div class="glass-panel auth-card" style="max-width: 540px;">
+    <h2 class="auth-title">Join NexusCart</h2>
+    <p class="auth-subtitle">Create a shopper or seller account today</p>
+
+    <!-- Error/Notification banner -->
+    <div id="auth-alert" style="display: none; padding: 12px; margin-bottom: 20px; border-radius: var(--radius-sm); text-align: center; font-size: 0.9rem; font-weight: 500;"></div>
+
+    <!-- Switch between Customer and Vendor -->
+    <div class="auth-toggle">
+      <div class="auth-toggle-btn active" id="toggle-customer" onclick="setRegisterRole('customer')">
+        <i class="fa-solid fa-user"></i> Customer
+      </div>
+      <div class="auth-toggle-btn" id="toggle-vendor" onclick="setRegisterRole('vendor')">
+        <i class="fa-solid fa-shop"></i> Vendor / Seller
+      </div>
+    </div>
+
+    <form id="register-form">
+      <div class="form-group">
+        <label for="name" class="form-label">Full Name</label>
+        <input type="text" id="name" class="form-control" placeholder="John Doe" required autocomplete="name">
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" id="email" class="form-control" placeholder="john@example.com" required autocomplete="email">
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password (Min. 6 chars)</label>
+        <input type="password" id="password" class="form-control" placeholder="••••••••" required autocomplete="new-password">
+      </div>
+
+      <!-- Vendor specific fields, hidden by default -->
+      <div id="vendor-fields" style="display: none; border-top: 1px dashed var(--glass-border); padding-top: 20px; margin-top: 20px;">
+        <div class="form-group">
+          <label for="storeName" class="form-label">Store Name</label>
+          <input type="text" id="storeName" class="form-control" placeholder="MegaTech Store">
+        </div>
+        <div class="form-group">
+          <label for="storeDescription" class="form-label">Store Description</label>
+          <textarea id="storeDescription" class="form-control" rows="3" placeholder="Brief description of your products..." style="resize: none;"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+        Create Account <i class="fa-solid fa-user-plus"></i>
+      </button>
+    </form>
+
+    <div style="margin-top: 24px; text-align: center; font-size: 0.9rem; color: var(--text-secondary);">
+      Already have an account? <a href="/login" style="color: var(--secondary); text-decoration: none; font-weight: 500;">Sign in instead</a>
+    </div>
+  </div>
+</div>
+
+<script src="/js/auth.js"></script>
+
+<%- include('partials/footer') %>

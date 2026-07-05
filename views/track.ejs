@@ -1,0 +1,73 @@
+<%- include('partials/header') %>
+
+<div class="container" style="max-width: 800px;">
+  
+  <div style="margin-bottom: 24px;">
+    <a href="/" class="btn btn-secondary">
+      <i class="fa-solid fa-arrow-left"></i> Back to Store
+    </a>
+  </div>
+
+  <div class="glass-panel tracking-card">
+    <div class="tracking-header">
+      <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 6px;" id="track-product-name">Package Delivery</h2>
+      <p style="color: var(--text-secondary);" id="track-item-info">Fulfillment status updates</p>
+    </div>
+
+    <!-- Timeline status nodes (visual indicator bar) -->
+    <div style="display: flex; justify-content: space-between; position: relative; margin-bottom: 50px; padding: 0 10px;">
+      <!-- Background Connecting Line -->
+      <div style="position: absolute; left: 40px; right: 40px; top: 18px; height: 4px; background: var(--glass-border); z-index: 1;">
+        <div id="visual-progress-bar" style="width: 0%; height: 100%; background: var(--secondary); transition: var(--transition-smooth);"></div>
+      </div>
+      
+      <!-- Placed step -->
+      <div style="display: flex; flex-direction: column; align-items: center; z-index: 2; flex: 1;" class="visual-step" id="step-placed">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-secondary); border: 2px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: var(--text-muted); transition: var(--transition-smooth);" class="step-circle">
+          <i class="fa-solid fa-file-invoice"></i>
+        </div>
+        <span style="font-size: 0.8rem; font-weight: 500; margin-top: 8px; color: var(--text-muted);" class="step-label">Placed</span>
+      </div>
+
+      <!-- Processing step -->
+      <div style="display: flex; flex-direction: column; align-items: center; z-index: 2; flex: 1;" class="visual-step" id="step-processing">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-secondary); border: 2px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: var(--text-muted); transition: var(--transition-smooth);" class="step-circle">
+          <i class="fa-solid fa-box-open"></i>
+        </div>
+        <span style="font-size: 0.8rem; font-weight: 500; margin-top: 8px; color: var(--text-muted);" class="step-label">Processing</span>
+      </div>
+
+      <!-- Shipped step -->
+      <div style="display: flex; flex-direction: column; align-items: center; z-index: 2; flex: 1;" class="visual-step" id="step-shipped">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-secondary); border: 2px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: var(--text-muted); transition: var(--transition-smooth);" class="step-circle">
+          <i class="fa-solid fa-truck"></i>
+        </div>
+        <span style="font-size: 0.8rem; font-weight: 500; margin-top: 8px; color: var(--text-muted);" class="step-label">Shipped</span>
+      </div>
+
+      <!-- Delivered step -->
+      <div style="display: flex; flex-direction: column; align-items: center; z-index: 2; flex: 1;" class="visual-step" id="step-delivered">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-secondary); border: 2px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: var(--text-muted); transition: var(--transition-smooth);" class="step-circle">
+          <i class="fa-solid fa-house-chimney-user"></i>
+        </div>
+        <span style="font-size: 0.8rem; font-weight: 500; margin-top: 8px; color: var(--text-muted);" class="step-label">Delivered</span>
+      </div>
+    </div>
+
+    <!-- Detailed Checkpoint Timeline -->
+    <h3 style="font-weight: 600; font-size: 1.25rem; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">Fulfillment Timeline Logs</h3>
+    
+    <div id="tracking-logs" class="timeline">
+      <!-- Dynamically filled with JS -->
+    </div>
+  </div>
+
+</div>
+
+<!-- Pass EJS parameter to Client side variable securely -->
+<script>
+  const ORDER_ITEM_ID = "<%= itemId %>";
+</script>
+<script src="/js/track.js"></script>
+
+<%- include('partials/footer') %>

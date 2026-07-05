@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexusCart - <%= typeof title !== 'undefined' ? title : 'Multi-Vendor E-Commerce' %></title>
+  
+  <!-- Modern Font & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/api.js"></script>
+</head>
+<body>
+
+  <!-- Premium Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="nav-logo">
+      <i class="fa-solid fa-layer-group"></i> NexusCart
+    </a>
+    
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link" id="nav-shop"><i class="fa-solid fa-store"></i> Shop</a></li>
+      <li class="guest-only"><a href="/login" class="nav-link" id="nav-login">Login</a></li>
+      <li class="guest-only"><a href="/register" class="btn btn-secondary nav-register-btn" id="nav-register">Register</a></li>
+      
+      <!-- Vendor Gated Controls -->
+      <li class="vendor-only" style="display: none;">
+        <a href="/dashboard" class="nav-link" id="nav-dashboard">
+          <i class="fa-solid fa-chart-line"></i> Vendor Portal
+        </a>
+      </li>
+      
+      <!-- User profile indicators -->
+      <li class="auth-only" style="display: none;">
+        <span class="nav-link" style="cursor: default; color: var(--text-primary);" id="nav-user-greeting">
+          Hi, User
+        </span>
+      </li>
+      <li class="auth-only" style="display: none;">
+        <a class="nav-link" onclick="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+      </li>
+      
+      <!-- Cart trigger icon -->
+      <li class="customer-only">
+        <a class="nav-link cart-icon-container" onclick="toggleCartDrawer()">
+          <i class="fa-solid fa-bag-shopping" style="font-size: 1.25rem;"></i>
+          <span class="cart-badge" id="cart-counter">0</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <script>
+    // Adjust navbar links visibility dynamically based on localStorage auth
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getCurrentUser();
+      const guestElements = document.querySelectorAll('.guest-only');
+      const authElements = document.querySelectorAll('.auth-only');
+      const vendorElements = document.querySelectorAll('.vendor-only');
+      const customerElements = document.querySelectorAll('.customer-only');
+
+      if (user) {
+        // Logged in
+        guestElements.forEach(el => el.style.display = 'none');
+        authElements.forEach(el => el.style.display = 'block');
+        
+        const greeting = document.getElementById('nav-user-greeting');
+        if (greeting) greeting.textContent = `Hi, ${user.name}`;
+
+        if (user.role === 'vendor') {
+          vendorElements.forEach(el => el.style.display = 'block');
+          customerElements.forEach(el => el.style.display = 'none'); // Vendors don't buy items
+        } else {
+          vendorElements.forEach(el => el.style.display = 'none');
+          customerElements.forEach(el => el.style.display = 'block');
+        }
+      } else {
+        // Guest
+        guestElements.forEach(el => el.style.display = 'block');
+        authElements.forEach(el => el.style.display = 'none');
+        vendorElements.forEach(el => el.style.display = 'none');
+        customerElements.forEach(el => el.style.display = 'block');
+      }
+      
+      // Highlight current page active link
+      const path = window.location.pathname;
+      if (path === '/') document.getElementById('nav-shop')?.classList.add('active');
+      if (path === '/login') document.getElementById('nav-login')?.classList.add('active');
+      if (path === '/dashboard') document.getElementById('nav-dashboard')?.classList.add('active');
+    });
+  </script>

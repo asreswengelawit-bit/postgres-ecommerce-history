@@ -83,7 +83,7 @@ async function setupDatabase() {
       ('FashionHub Owner', 'vendor2@ecommerce.com', $3, 'vendor'),
       ('John Doe', 'customer1@ecommerce.com', $4, 'customer'),
       ('Jane Smith', 'customer2@ecommerce.com', $5, 'customer')
-      RETURNING id, name, role;
+      RETURNING id, name, email, role;
     `, [passwordAdmin, passwordVendor1, passwordVendor2, passwordCustomer1, passwordCustomer2]);
 
     const usersMap = {};
